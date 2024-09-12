@@ -14,16 +14,16 @@ executors:
         macos:
             xcode: 14.2.0
         resource_class: macos.m1.medium.gen1
-    macos-medium-rosetta:
-        macos:
-            xcode: 14.2.0
-        resource_class: macos.m1.medium.gen1
-        shell: arch -x86_64 /bin/bash --login -c
-    macos-rosetta:
-        macos:
-            xcode: 14.2.0
-        resource_class: macos.m1.large.gen1
-        shell: arch -x86_64 /bin/bash --login -c
+    # macos-medium-rosetta:
+    #     macos:
+    #         xcode: 14.2.0
+    #     resource_class: macos.m1.medium.gen1
+    #     shell: arch -x86_64 /bin/bash --login -c
+    # macos-rosetta:
+    #     macos:
+    #         xcode: 14.2.0
+    #     resource_class: macos.m1.large.gen1
+    #     shell: arch -x86_64 /bin/bash --login -c
 
 workflows:
   docker-mac-tests:
@@ -31,7 +31,7 @@ workflows:
       - build-and-test:
           matrix:
             parameters:
-              os: [macos-medium, macos-medium-rosetta, macos-rosetta]
+              os: [macos-medium]
 
 jobs:
   build-and-test:
