@@ -24,7 +24,7 @@ export const config: WebdriverIO.Config = {
     // will be called from there.
     //
     specs: [
-        './e2e/test.e2e.ts'
+        './e2e/test*.e2e.ts',
     ],
     // Patterns to exclude.
     exclude: [
@@ -46,7 +46,8 @@ export const config: WebdriverIO.Config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 36,
+    maxInstancesPerCapability: 36,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -54,18 +55,18 @@ export const config: WebdriverIO.Config = {
     //
     capabilities: [{
       browserName: 'electron',
-      'goog:chromeOptions': {
-              args: [
-                'disable-gpu',
-                'window-size=1280,800',
+      'wdio:electronServiceOptions': {
+              appArgs: [
+                'headless',
                 'no-sandbox',
+                'window-size=1280,800',
                 'disable-dev-shm-usage',
                 'disable-setuid-sandbox',
                 'enable-automation',
                 'disable-infobars',
                 'disable-extensions',
-                'blink-settings=imagesEnabled=false'
-              ]
+                'blink-settings=imagesEnabled=false',
+              ],
           }
     }],
 
