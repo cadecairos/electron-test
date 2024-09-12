@@ -6,10 +6,10 @@ executors:
     linux-docker:
         docker:
             - image: cimg/node:20.12.2
-    # macos:
-    #     macos:
-    #         xcode: 14.2.0
-    #     resource_class: m2pro.medium.test
+    macos:
+        macos:
+            xcode: 14.2.0
+        resource_class: m2pro.medium.test
     macos-medium:
         macos:
             xcode: 14.2.0
@@ -39,6 +39,7 @@ jobs:
           os:
             type: executor
     executor: << parameters.os >>
+    parallelism: 10
     working_directory: ~/test-electron
     steps:
       - checkout
