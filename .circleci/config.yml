@@ -39,7 +39,7 @@ jobs:
           os:
             type: executor
     executor: << parameters.os >>
-    parallelism: 10
+    parallelism: 5
     working_directory: ~/test-electron
     steps:
       - checkout
