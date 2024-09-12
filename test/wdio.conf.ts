@@ -59,6 +59,7 @@ export const config: WebdriverIO.Config = {
               appArgs: [
                 'headless',
                 'no-sandbox',
+                'disable-gpu',
                 'window-size=1280,800',
                 'disable-dev-shm-usage',
                 'disable-setuid-sandbox',
