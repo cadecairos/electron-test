@@ -2,6 +2,8 @@ import puppeteer from 'puppeteer'
 
 process.env.TEST = 'true'
 
+const remotedebugport = Math.floor(Math.random() * (12000 - 8000) + 12000)
+
 export const config: WebdriverIO.Config = {
   //
   // ====================
@@ -70,7 +72,7 @@ export const config: WebdriverIO.Config = {
         'disable-infobars',
         'disable-extensions',
         'blink-settings=imagesEnabled=false',
-        'remote-debugging-port=8907',
+        `remote-debugging-port=${remotedebugport}`,
       ],
     }
   }],
@@ -82,7 +84,7 @@ export const config: WebdriverIO.Config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'error',
+  logLevel: 'trace',
   //
   // Set specific log levels per logger
   // loggers:
@@ -199,8 +201,11 @@ export const config: WebdriverIO.Config = {
    * @param {object}         browser      instance of created browser/device session
    */
   before: async function(capabilities, specs, browser) {
+    const remotedebugport = capabilities['wdio:electronServiceOptions'].appArgs.find(
+      (arg) => arg.startsWith('remote-debugging-port=')
+    ).split('=')[1]
     global.appurl = await browser.getUrl()
-    browser.url('http://127.0.0.1:8907/json/version')
+    browser.url(`http://127.0.0.1:${remotedebugport}/json/version`)
     let body = await $('body').getText()
     let connections = JSON.parse(body)
 
