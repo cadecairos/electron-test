@@ -14,6 +14,10 @@ executors:
         macos:
             xcode: 14.2.0
         resource_class: macos.m1.medium.gen1
+    macos-m2pro-large:
+        macos:
+            xcode: 14.2.0
+        resource_class: m2pro.large.test
     # macos-medium-rosetta:
     #     macos:
     #         xcode: 14.2.0
@@ -31,7 +35,7 @@ workflows:
       - build-and-test:
           matrix:
             parameters:
-              os: [macos-medium, macos]
+              os: [macos-medium, macos, m2pro.large.test]
 
 jobs:
   build-and-test:
