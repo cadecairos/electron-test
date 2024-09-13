@@ -35,7 +35,7 @@ workflows:
       - build-and-test:
           matrix:
             parameters:
-              os: [macos-medium, macos, m2pro.large.test]
+              os: [macos-medium, macos, macos-m2pro-large]
 
 jobs:
   build-and-test:
