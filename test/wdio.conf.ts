@@ -51,8 +51,8 @@ export const config: WebdriverIO.Config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 3,
-  maxInstancesPerCapability: 3,
+  maxInstances: 16,
+  maxInstancesPerCapability: 16,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -62,19 +62,18 @@ export const config: WebdriverIO.Config = {
     browserName: 'electron',
     'wdio:electronServiceOptions': {
       appArgs: [
-        'headless',
-        'no-sandbox',
-        'disable-gpu',
-        'window-size=1280,800',
-        'disable-dev-shm-usage',
-        'disable-setuid-sandbox',
+        // 'no-sandbox',
+        // 'disable-gpu',
+        // 'window-size=1280,800',
+        // 'disable-dev-shm-usage',
+        // 'disable-setuid-sandbox',
         'enable-automation',
         'disable-infobars',
         'disable-extensions',
         'blink-settings=imagesEnabled=false',
         `remote-debugging-port=${remotedebugport}`,
       ],
-    }
+    },
   }],
 
   //
@@ -204,14 +203,16 @@ export const config: WebdriverIO.Config = {
     const remotedebugport = capabilities['wdio:electronServiceOptions'].appArgs.find(
       (arg) => arg.startsWith('remote-debugging-port=')
     ).split('=')[1]
-    global.appurl = await browser.getUrl()
-    browser.url(`http://127.0.0.1:${remotedebugport}/json/version`)
-    let body = await $('body').getText()
-    let connections = JSON.parse(body)
+    // global.appurl = await browser.getUrl()
+    // browser.url(`http://127.0.0.1:${remotedebugport}/json/version`)
+    // make http request using fetch to http://172.0.0.1:9222/json/version
+
+    const res = await fetch(`http://127.0.0.1:${remotedebugport}/json/version`)
+    const json = await res.json()
 
     let p = await browser.call(() => {
       return puppeteer.connect({
-        browserWSEndpoint: connections.webSocketDebuggerUrl
+        browserWSEndpoint: json.webSocketDebuggerUrl
       })
     })
     global.p = p
