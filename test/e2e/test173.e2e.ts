@@ -1,6 +1,42 @@
 import { expect, browser, $ } from '@wdio/globals'
+import { PuppeteerScreenRecorder } from 'puppeteer-screen-recorder'
+
+const Config = {
+  followNewTab: true,
+  fps: 20,
+  ffmpeg_Path: "/opt/homebrew/bin/ffmpeg",
+  videoFrame: {
+    width: 1280,
+    height: 800
+  },
+  videoCrf: 18,
+  videoCodec: 'libx264',
+  videoPreset: 'ultrafast',
+  videoBitrate: '1000',
+  autopad: {
+    color: 'black',
+  },
+  aspectRatio: '4:3'
+}
+
+let recorder = null
 
 describe('Electron Testing', () => {
+
+  before(async () => {
+    browser.url(global.appurl)
+  })
+
+  beforeEach(async () => {
+    const pages = await browser.call(async () => await global.p.pages())
+    recorder = new PuppeteerScreenRecorder(pages[0], Config)
+    await recorder.start(`/tmp/test/${require('path').basename(module.filename)}.mp4`)
+  })
+
+  afterEach(async () => {
+    await recorder.stop()
+  })
+
   it('should print application metadata', async () => {
     expect(await browser.electron.execute((electron) => electron.app.getName()))
       .toBe('postman-test')

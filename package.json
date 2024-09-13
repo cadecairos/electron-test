@@ -44,6 +44,8 @@
   "dependencies": {
     "@stencil/core": "4.21.0",
     "electron-squirrel-startup": "^1.0.1",
+    "puppeteer": "^23.3.0",
+    "puppeteer-screen-recorder": "3.0.3",
     "semver-regex": "^4.0.5"
   },
   "devDependencies": {

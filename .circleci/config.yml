@@ -43,6 +43,9 @@ jobs:
     working_directory: ~/test-electron
     steps:
       - checkout
+      - run:
+          name: Install ffmpeg
+          command: brew install ffmpeg
       - node/install:
           install-yarn: true
           node-version: '20.12.2'
